@@ -1,0 +1,34 @@
+{
+  "name": "switch-game-manager",
+  "version": "1.0.0",
+  "description": "Nintendo Switch 游戏文件管理器 - 自动解压与整理",
+  "main": "src/main/main.js",
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-builder --win portable"
+  },
+  "author": "",
+  "license": "MIT",
+  "build": {
+    "appId": "com.switchgamemanager.app",
+    "productName": "Switch游戏管理器",
+    "win": {
+      "target": "portable",
+      "signAndEditExecutable": false
+    },
+    "portable": {
+      "artifactName": "Switch游戏管理器.exe"
+    },
+    "files": [
+      "src/**/*"
+    ]
+  },
+  "dependencies": {
+    "electron-store": "^8.2.0",
+    "node-7z": "^3.0.0"
+  },
+  "devDependencies": {
+    "electron": "^40.6.0",
+    "electron-builder": "^25.1.8"
+  }
+}

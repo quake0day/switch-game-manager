@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' https:; style-src 'self' 'unsafe-inline';">
+  <title>Switch 游戏文件管理器</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app">
+    <!-- Header -->
+    <header class="header">
+      <h1>Switch 游戏文件管理器</h1>
+      <div class="header-actions">
+        <button id="btn-settings" class="btn btn-icon" title="设置">⚙</button>
+      </div>
+    </header>
+
+    <!-- Settings Panel (overlay) -->
+    <div id="settings-panel" class="panel-overlay hidden">
+      <div class="panel">
+        <div class="panel-header">
+          <h2>设置</h2>
+          <button id="btn-close-settings" class="btn btn-icon">✕</button>
+        </div>
+        <div class="panel-body">
+          <!-- Source Folders -->
+          <div class="form-group">
+            <label>源文件夹（游戏RAR所在目录）</label>
+            <div id="source-folders-list" class="folder-list"></div>
+            <button id="btn-add-source" class="btn btn-secondary">+ 添加源文件夹</button>
+          </div>
+
+          <!-- Target Folder -->
+          <div class="form-group">
+            <label>目标文件夹（支持本地磁盘和 MTP 设备，如 Switch SD 卡）</label>
+            <div class="input-row">
+              <input type="text" id="input-target" class="input" readonly placeholder="点击选择 - 支持 MTP 设备（如 Switch）">
+              <button id="btn-select-target" class="btn btn-secondary">选择</button>
+            </div>
+          </div>
+
+          <!-- 7-Zip Path -->
+          <div class="form-group">
+            <label>7-Zip 路径</label>
+            <div class="input-row">
+              <input type="text" id="input-7z" class="input" placeholder="C:\Program Files\7-Zip\7z.exe">
+              <button id="btn-detect-7z" class="btn btn-secondary">自动检测</button>
+            </div>
+          </div>
+
+          <!-- RAR Password -->
+          <div class="form-group">
+            <label>解压密码（多个用逗号分隔，会依次尝试）</label>
+            <input type="text" id="input-password" class="input" placeholder="gkinto.com,gamekegs.com">
+          </div>
+
+          <!-- TitleDB -->
+          <div class="form-group">
+            <label>游戏数据库 (TitleDB)</label>
+            <div class="titledb-status">
+              <span id="titledb-info">未加载</span>
+              <button id="btn-update-titledb" class="btn btn-secondary">更新数据库</button>
+            </div>
+          </div>
+
+          <button id="btn-save-settings" class="btn btn-primary">保存设置</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Organize Panel (overlay) -->
+    <div id="organize-panel" class="panel-overlay hidden">
+      <div class="panel organize-panel-inner">
+        <div class="panel-header">
+          <h2>整理文件夹</h2>
+          <button id="btn-close-organize" class="btn btn-icon">✕</button>
+        </div>
+        <div class="panel-body">
+          <!-- Source folder selector -->
+          <div class="form-group">
+            <label>选择源文件夹</label>
+            <select id="organize-folder-select" class="input"></select>
+          </div>
+
+          <!-- Summary -->
+          <div id="organize-summary" class="organize-summary"></div>
+
+          <!-- Action list -->
+          <div id="organize-actions" class="organize-actions"></div>
+
+          <!-- Progress -->
+          <div id="organize-progress" class="progress-container hidden">
+            <div class="progress-info">
+              <span id="organize-progress-title">执行中...</span>
+              <span id="organize-progress-percent"></span>
+            </div>
+            <div class="progress-bar">
+              <div id="organize-progress-fill" class="progress-fill"></div>
+            </div>
+            <div id="organize-progress-message" class="progress-message"></div>
+          </div>
+
+          <!-- Buttons -->
+          <div class="organize-buttons">
+            <button id="btn-organize-execute" class="btn btn-success" disabled>执行整理</button>
+            <button id="btn-organize-cancel" class="btn btn-secondary">取消</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- Toolbar -->
+      <div class="toolbar">
+        <button id="btn-scan" class="btn btn-primary">扫描游戏</button>
+        <button id="btn-organize" class="btn btn-secondary">整理文件夹</button>
+        <button id="btn-select-all" class="btn btn-secondary" disabled>全选</button>
+        <button id="btn-process" class="btn btn-success" disabled>处理选中</button>
+        <button id="btn-cancel" class="btn btn-danger hidden">取消</button>
+        <span id="scan-status" class="status-text"></span>
+      </div>
+
+      <!-- Progress Bar -->
+      <div id="progress-container" class="progress-container hidden">
+        <div class="progress-info">
+          <span id="progress-title"></span>
+          <span id="progress-percent"></span>
+        </div>
+        <div class="progress-bar">
+          <div id="progress-fill" class="progress-fill"></div>
+        </div>
+        <div id="progress-message" class="progress-message"></div>
+      </div>
+
+      <!-- Game Grid -->
+      <div id="game-grid" class="game-grid">
+        <div class="empty-state">
+          <p>点击「扫描游戏」开始</p>
+          <p class="hint">请先在设置中配置源文件夹和目标文件夹</p>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
