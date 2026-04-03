@@ -28,7 +28,7 @@
     "node-7z": "^3.0.0"
   },
   "devDependencies": {
-    "electron": "^40.6.0",
+    "electron": "^40.8.5",
     "electron-builder": "^25.1.8"
   }
 }
